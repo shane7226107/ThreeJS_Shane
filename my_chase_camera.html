@@ -11,7 +11,6 @@
 	<script src="js/Three.js"></script>
 	<script src="js/Detector.js"></script>
 	<script src="js/Stats.js"></script>
-	<script src="js/OrbitControls.js"></script>
 	<script src="js/THREEx.KeyboardState.js"></script>
 	<script src="js/THREEx.FullScreen.js"></script>
 	<script src="js/THREEx.WindowResize.js"></script>
@@ -42,10 +41,11 @@
 			x:-1,
 			y:-1
 		};
-		var reticle = {
+		var orbit = {
 			alpha:0,
 			theta:0
 		};
+		var reticle = new THREE.Vector3(0,0,0);
 
 		// custom global variables
 		var movingCube;
@@ -157,7 +157,13 @@
 			camera.position.x = cameraOffset.x;
 			camera.position.y = cameraOffset.y;
 			camera.position.z = cameraOffset.z;
-			camera.lookAt( movingCube.position );
+			
+			// TODO:
+			// 將recticle以camera.position為圓心做orbit旋轉
+			reticle.x = movingCube.position.x;
+			reticle.y = movingCube.position.y;
+			reticle.z = movingCube.position.z;
+			camera.lookAt( reticle );
 		}
 
 		function onMouseMove( event ) {
@@ -165,7 +171,6 @@
 				current_y = event.pageY;
 
 			// console.log("mouse X:"+current_x+"  mouse Y:"+current_y);
-
 
 			if(mouse_pos.x == -1){
 				mouse_pos.x = current_x;
