@@ -38,7 +38,10 @@
 		var clock = new THREE.Clock(); //Object for keeping track of time.
 		var y_axis_local = new THREE.Vector3(0,1,0);
 		var x_axis_local = new THREE.Vector3(1,0,0);
-		var mouse_pos = [-1,-1];
+		var mouse_pos = {
+			x:-1,
+			y:-1
+		};
 
 		// custom global variables
 		var movingCube;
@@ -154,7 +157,24 @@
 		}
 
 		function onMouseMove( event ) {
-			console.log("mouse X:"+event.pageX+"  mouse Y:"+event.pageY);
+			var current_x = event.pageX,
+				current_y = event.pageY;
+
+			// console.log("mouse X:"+current_x+"  mouse Y:"+current_y);
+
+
+			if(mouse_pos.x == -1){
+				mouse_pos.x = current_x;
+				mouse_pos.y = current_y;
+			}else{
+				var delta_x = current_x - mouse_pos.x,
+					delta_y = current_y - mouse_pos.y;
+
+				console.log("delta X:"+delta_x+"  delta Y:"+delta_y);
+
+				mouse_pos.x = current_x;
+				mouse_pos.y = current_y;
+			}
 		}
 
 		function animate() 
