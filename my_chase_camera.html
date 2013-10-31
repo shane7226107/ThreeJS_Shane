@@ -38,6 +38,7 @@
 		var clock = new THREE.Clock(); //Object for keeping track of time.
 		var y_axis_local = new THREE.Vector3(0,1,0);
 		var x_axis_local = new THREE.Vector3(1,0,0);
+		var mouse_pos = [-1,-1];
 
 		// custom global variables
 		var movingCube;
@@ -65,7 +66,7 @@
 			// EVENTS
 			THREEx.WindowResize(renderer, camera);
 			THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
-			$( "body" ).mousemove(onDocumentMouseMove);
+			$( "body" ).mousemove(onMouseMove);
 
 			// LIGHT
 			var light = new THREE.PointLight(0xffffff);
@@ -152,8 +153,8 @@
 			camera.lookAt( movingCube.position );
 		}
 
-		function onDocumentMouseMove( event ) {
-			console.log("mouse event");
+		function onMouseMove( event ) {
+			console.log("mouse X:"+event.pageX+"  mouse Y:"+event.pageY);
 		}
 
 		function animate() 
