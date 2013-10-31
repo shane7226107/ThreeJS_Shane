@@ -65,6 +65,7 @@
 			// EVENTS
 			THREEx.WindowResize(renderer, camera);
 			THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+			$( "body" ).mousemove(onDocumentMouseMove);
 
 			// LIGHT
 			var light = new THREE.PointLight(0xffffff);
@@ -149,6 +150,10 @@
 			camera.position.y = cameraOffset.y;
 			camera.position.z = cameraOffset.z;
 			camera.lookAt( movingCube.position );
+		}
+
+		function onDocumentMouseMove( event ) {
+			console.log("mouse event");
 		}
 
 		function animate() 
