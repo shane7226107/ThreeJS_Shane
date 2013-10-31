@@ -52,7 +52,7 @@ var container, scene, camera, renderer, controls, stats;
 var keyboard = new THREEx.KeyboardState();
 var clock = new THREE.Clock();
 // custom global variables
-var cube;
+// var cube;
 
 init();
 animate();
@@ -75,8 +75,10 @@ function init()
 	else
 		renderer = new THREE.CanvasRenderer(); 
 	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	container = document.getElementById( 'ThreeJS' );
-	container.appendChild( renderer.domElement );
+	// container = document.getElementById( 'ThreeJS' );
+	// container.appendChild( renderer.domElement );
+	container = $("#ThreeJS");
+	container.append( renderer.domElement );
 	// EVENTS
 	THREEx.WindowResize(renderer, camera);
 	THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
@@ -85,12 +87,13 @@ function init()
 	// MUST REMOVE THIS LINE!!!
 	// controls = ...
 
-	// STATS
-	stats = new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.bottom = '0px';
-	stats.domElement.style.zIndex = 100;
-	container.appendChild( stats.domElement );
+	// // STATS
+	// stats = new Stats();
+	// stats.domElement.style.position = 'absolute';
+	// stats.domElement.style.bottom = '0px';
+	// stats.domElement.style.zIndex = 100;
+	// container.append( stats.domElement);
+	
 	// LIGHT
 	var light = new THREE.PointLight(0xffffff);
 	light.position.set(0,250,0);
@@ -185,7 +188,7 @@ function update()
 	camera.position.z = cameraOffset.z;
 	camera.lookAt( MovingCube.position );
 			
-	stats.update();
+	// stats.update();
 }
 
 function render() 
