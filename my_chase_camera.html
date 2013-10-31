@@ -42,9 +42,9 @@
 			x:-1,
 			y:-1
 		};
-		var mouse_delta = {
-			x:-1,
-			y:-1
+		var reticle = {
+			alpha:0,
+			theta:0
 		};
 
 		// custom global variables
@@ -171,10 +171,10 @@
 				mouse_pos.x = current_x;
 				mouse_pos.y = current_y;
 			}else{
-				mouse_delta.x = current_x - mouse_pos.x;
-				mouse_delta.y = current_y - mouse_pos.y;
+				var mouse_delta_x = current_x - mouse_pos.x,
+					mouse_delta_y = current_y - mouse_pos.y;
 
-				console.log("delta X:"+mouse_delta.x+"  delta Y:"+mouse_delta.y);
+				console.log("delta X:"+mouse_delta_x+"  delta Y:"+mouse_delta_y);
 
 				mouse_pos.x = current_x;
 				mouse_pos.y = current_y;
