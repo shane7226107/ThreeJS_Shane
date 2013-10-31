@@ -97,12 +97,67 @@
 			materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/yneg.png' ) }));
 			materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/zpos.png' ) }));
 			materialArray.push(new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture( 'images/zneg.png' ) }));
-			var MovingCubeMat = new THREE.MeshFaceMaterial(materialArray);
-			var MovingCubeGeom = new THREE.CubeGeometry( 50, 50, 50, 1, 1, 1, materialArray );
-			movingCube = new THREE.Mesh( MovingCubeGeom, MovingCubeMat );
+			var movingCubeMat = new THREE.MeshFaceMaterial(materialArray);
+			var movingCubeGeom = new THREE.CubeGeometry( 50, 50, 50, 1, 1, 1, materialArray );
+			movingCube = new THREE.Mesh( movingCubeGeom, movingCubeMat );
 			movingCube.position.set(0, 25.1, 0);
 			scene.add( movingCube );			
 		}
+
+		function update()
+		{
+			var delta = clock.getDelta(); // seconds.
+			var moveDistance = 200 * delta; // 200 pixels per second
+			var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
+			
+			// local transformations
+
+			// move forwards/backwards/left/right
+			if ( keyboard.pressed("W") )
+				movingCube.translateZ( -moveDistance );
+			if ( keyboard.pressed("S") )
+				movingCube.translateZ(  moveDistance );
+			if ( keyboard.pressed("Q") )
+				movingCube.translateX( -moveDistance );
+			if ( keyboard.pressed("E") )
+				movingCube.translateX(  moveDistance );	
+
+			// rotate left/right/up/down
+			var rotation_matrix = new THREE.Matrix4().identity();
+			if ( keyboard.pressed("A") )
+				movingCube.rotateOnAxis( new THREE.Vector3(0,1,0), rotateAngle);
+			if ( keyboard.pressed("D") )
+				movingCube.rotateOnAxis( new THREE.Vector3(0,1,0), -rotateAngle);
+			if ( keyboard.pressed("R") )
+				movingCube.rotateOnAxis( new THREE.Vector3(1,0,0), rotateAngle);
+			if ( keyboard.pressed("F") )
+				movingCube.rotateOnAxis( new THREE.Vector3(1,0,0), -rotateAngle);
+			
+			if ( keyboard.pressed("Z") )
+			{
+				movingCube.position.set(0,25.1,0);
+				movingCube.rotation.set(0,0,0);
+			}
+			
+			var relativeCameraOffset = new THREE.Vector3(0,50,200);
+
+			var cameraOffset = relativeCameraOffset.applyMatrix4( movingCube.matrixWorld );
+
+			camera.position.x = cameraOffset.x;
+			camera.position.y = cameraOffset.y;
+			camera.position.z = cameraOffset.z;
+			camera.lookAt( movingCube.position );
+		}
+
+		function animate() 
+		{
+		    requestAnimationFrame( animate );
+		    renderer.render( scene, camera );		
+			update();
+		}
+
+		init();
+		animate();
 
 		console.log("End");
 	</script>
