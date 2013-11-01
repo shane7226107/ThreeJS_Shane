@@ -212,8 +212,8 @@
 
 				// TODO:
 				// 調整alpha和theta對delta的比值
-				// orbit.alpha = (orbit.alpha + mouse_delta_y)%360;
-				orbit.theta = (orbit.theta - mouse_delta_x)%360;
+				orbit.theta = (orbit.theta + mouse_delta_y)%360;
+				// orbit.theta = (orbit.theta + mouse_delta_x)%360;
 				
 				mouse_pos.x = current_x;
 				mouse_pos.y = current_y;
