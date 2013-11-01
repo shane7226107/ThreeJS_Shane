@@ -175,7 +175,7 @@
 			var dot_z = cube_offset.dot(z_axis_local);
 			var alpha_p =  Math.acos(dot_z/(cube_offset.length()+1))*180/Math.PI;
 
-			// step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta ...後略
+			// step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta
 			var theta_pp = (theta_p + orbit.theta)*Math.PI/180;
 			var alpha_pp = (alpha_p + orbit.alpha)*Math.PI/180;
 
@@ -183,21 +183,14 @@
 			reticle.z = radius*Math.sin(theta_pp)*Math.cos(alpha_pp);
 			reticle.x = radius*Math.sin(theta_pp)*Math.sin(alpha_pp);
 			reticle.y = radius*Math.cos(theta_pp);
-			// console.log(theta_pp);
-			// console.log(alpha_pp);
 
 			// step5: lockAt reticle
-			// reticle.x = movingCube.position.x;
-			// reticle.y = movingCube.position.y;
-			// reticle.z = movingCube.position.z;
 			camera.lookAt( reticle );
 		}
 
 		function onMouseMove( event ) {
 			var current_x = event.pageX,
 				current_y = event.pageY;
-
-			// console.log("mouse X:"+current_x+"  mouse Y:"+current_y);
 
 			if(mouse_pos.x == -1){
 				mouse_pos.x = current_x;
@@ -206,10 +199,6 @@
 				var mouse_delta_x = current_x - mouse_pos.x,
 					mouse_delta_y = current_y - mouse_pos.y;
 
-				// console.log("delta X:"+mouse_delta_x+"  delta Y:"+mouse_delta_y);
-
-				// TODO:
-				// 調整alpha和theta對delta的比值
 				orbit.theta = (orbit.theta + mouse_delta_y)%360;
 				orbit.alpha = (orbit.alpha - mouse_delta_x)%360;
 				
