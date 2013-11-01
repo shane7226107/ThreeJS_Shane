@@ -161,31 +161,30 @@
 			
 			// TODO:
 			// 將recticle以camera.position為圓心做orbit旋轉
-
 			// step0: 以camera.position為原點,平移movingCube位置
 			var cube_offset = new THREE.Vector3(movingCube.position.x - camera.position.x,
 												movingCube.position.y - camera.position.y,
 												movingCube.position.z - camera.position.z);
 
 			// step1: 算出camera.position 到 movingCube的距離 => r
-			var radius = cube_offset.length();
+			var radius = relativeCameraOffset.length();
 
 			// step2: 算出與z軸夾角theta' , x軸夾角alpha' = 0
 			// console.log("cube_offset:"+cube_offset.x+" "+cube_offset.y+" "+cube_offset.z);
 			var dot_z = cube_offset.dot(z_axis_local);
-			var theta_p =  Math.acos(dot_z/(cube_offset.length()+1)) * 180 / Math.PI;
+			var theta_p =  Math.acos(dot_z/(cube_offset.length()+1))*180/Math.PI;
 
 			var dot_x = cube_offset.dot(x_axis_local);
-			var alpha_p =  Math.acos(dot_x/(cube_offset.length()+1)) * 180 / Math.PI;
+			var alpha_p =  Math.acos(dot_x/(cube_offset.length()+1))*180/Math.PI;
 
 			// step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta ...後略
-			var theta_pp = (theta_p + orbit.theta)*Math.PI/180;
-			var alpha_pp = (alpha_p + orbit.alpha)*Math.PI/180;
+			var theta_pp = ((theta_p + orbit.theta))%360*Math.PI/180;
+			var alpha_pp = ((alpha_p + orbit.alpha))%360*Math.PI/180;
 
 			// step4: 將r,theta'',alpha''轉回笛卡爾座標,成為reticle位置
 			reticle.x = radius*Math.sin(theta_pp)*Math.cos(alpha_pp);
 			reticle.y = radius*Math.sin(theta_pp)*Math.sin(alpha_pp);
-			reticle.z = radius*Math.cos(theta_pp)*Math.cos(alpha_pp);
+			reticle.z = radius*Math.cos(theta_pp);
 			// console.log(theta_pp);
 			// console.log(alpha_pp);
 
