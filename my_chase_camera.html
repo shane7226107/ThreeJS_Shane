@@ -37,6 +37,7 @@
 		var clock = new THREE.Clock(); //Object for keeping track of time.
 		var y_axis_local = new THREE.Vector3(0,1,0);
 		var x_axis_local = new THREE.Vector3(1,0,0);
+		var z_axis_local = new THREE.Vector3(0,0,1);
 		var mouse_pos = {
 			x:-1,
 			y:-1
@@ -170,6 +171,16 @@
 			var radius = cube_offset.length();
 
 			// step2: 算出與z軸夾角theta' , x軸夾角alpha' = 0
+			console.log("cube_offset:"+cube_offset.x+" "+cube_offset.y+" "+cube_offset.z);
+
+			var cross_z = cube_offset;
+			cross_z.cross(z_axis_local);
+			var cross_x = cube_offset;
+			cross_x.cross(x_axis_local);
+			
+			
+			
+
 			// step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta ...後略
 			// step4: 將r,theta'',alpha''轉回笛卡爾座標,成為reticle位置
 			// step5: lockAt reticle
