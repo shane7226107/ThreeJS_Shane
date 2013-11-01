@@ -162,15 +162,13 @@
 			// TODO:
 			// 將recticle以camera.position為圓心做orbit旋轉
 			// step0: 以camera.position為原點,平移movingCube位置
-			var cube_offset = new THREE.Vector3(movingCube.position.x - camera.position.x,
-												movingCube.position.y - camera.position.y,
-												movingCube.position.z - camera.position.z);
+			var cube_offset = cameraOffset;
+			cube_offset.negate();
 
 			// step1: 算出camera.position 到 movingCube的距離 => r
 			var radius = relativeCameraOffset.length();
 
 			// step2: 算出與z軸夾角theta' , x軸夾角alpha'
-			// console.log("cube_offset:"+cube_offset.x+" "+cube_offset.y+" "+cube_offset.z);
 			var dot_z = cube_offset.dot(z_axis_local);
 			var theta_p =  Math.acos(dot_z/(cube_offset.length()+1))*180/Math.PI;
 
@@ -213,7 +211,7 @@
 				// TODO:
 				// 調整alpha和theta對delta的比值
 				orbit.theta = (orbit.theta + mouse_delta_y)%360;
-				// orbit.theta = (orbit.theta + mouse_delta_x)%360;
+				// orbit.alpha = (orbit.alpha + mouse_delta_x)%360;
 				
 				mouse_pos.x = current_x;
 				mouse_pos.y = current_y;
