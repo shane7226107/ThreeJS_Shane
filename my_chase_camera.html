@@ -42,8 +42,8 @@
 			y:-1
 		};
 		var orbit = {
-			alpha:0,
-			theta:0
+			alpha:0,//x軸夾角
+			theta:0 //z軸夾角
 		};
 		var reticle = new THREE.Vector3(0,0,0);
 
@@ -160,6 +160,13 @@
 			
 			// TODO:
 			// 將recticle以camera.position為圓心做orbit旋轉
+
+			// step0: 以camera.position為原點,平移movingCube位置
+			// step1: 算出camera.position 到 movingCube的距離 => r
+			// step2: 算出與z軸夾角theta' , x軸夾角alpha' = 0
+			// step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta ...後略
+			// step4: 將r,theta'',alpha''轉回笛卡爾座標,成為reticle位置
+			// step5: lockAt reticle
 			reticle.x = movingCube.position.x;
 			reticle.y = movingCube.position.y;
 			reticle.z = movingCube.position.z;
@@ -181,6 +188,11 @@
 
 				console.log("delta X:"+mouse_delta_x+"  delta Y:"+mouse_delta_y);
 
+				// TODO:
+				// 調整alpha和theta對delta的比值
+				orbit.alpha += mouse_delta_x
+				orbit.theta += mouse_delta_y
+				
 				mouse_pos.x = current_x;
 				mouse_pos.y = current_y;
 			}
