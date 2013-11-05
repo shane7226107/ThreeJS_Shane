@@ -46,7 +46,7 @@
 			alpha:0,//x軸夾角
 			theta:0 //z軸夾角
 		};
-		var reticle = new THREE.Vector3(0,0,0);
+		var reticle = new THREE.Vector3(0,30,0);
 
 		// custom global variables
 		var movingCube;
@@ -61,7 +61,7 @@
 			var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
 			camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 			scene.add(camera);
-			camera.position.set(0,150,400);
+			camera.position.set(0,30,400);
 			camera.lookAt(scene.position);
 			// RENDERER
 			if ( Detector.webgl )
@@ -122,70 +122,91 @@
 			var moveDistance = 200 * delta; // 200 pixels per second
 			var rotateAngle = Math.PI / 2 * delta;   // pi/2 radians (90 degrees) per second
 			
-			// local transformations
-
 			// move forwards/backwards/left/right
 			if ( keyboard.pressed("W") )
-				movingCube.translateZ( -moveDistance );
+				camera.translateZ( -moveDistance );
 			if ( keyboard.pressed("S") )
-				movingCube.translateZ(  moveDistance );
+				camera.translateZ(  moveDistance );
 			if ( keyboard.pressed("Q") )
-				movingCube.translateX( -moveDistance );
+				camera.translateX( -moveDistance );
 			if ( keyboard.pressed("E") )
-				movingCube.translateX(  moveDistance );	
+				camera.translateX(  moveDistance );
 
 			// rotate left/right/up/down
-			var rotation_matrix = new THREE.Matrix4().identity();
 			if ( keyboard.pressed("A") )
-				movingCube.rotateOnAxis( y_axis_local, rotateAngle);
+				camera.rotateOnAxis( y_axis_local, rotateAngle);
 			if ( keyboard.pressed("D") )
-				movingCube.rotateOnAxis( y_axis_local, -rotateAngle);
+				camera.rotateOnAxis( y_axis_local, -rotateAngle);
 			if ( keyboard.pressed("R") )
-				movingCube.rotateOnAxis( x_axis_local, rotateAngle);
+				camera.rotateOnAxis( x_axis_local, rotateAngle);
 			if ( keyboard.pressed("F") )
-				movingCube.rotateOnAxis( x_axis_local, -rotateAngle);
+				camera.rotateOnAxis( x_axis_local, -rotateAngle);
+
+
+			// // local transformations
+
+			// // move forwards/backwards/left/right
+			// if ( keyboard.pressed("W") )
+			// 	movingCube.translateZ( -moveDistance );
+			// if ( keyboard.pressed("S") )
+			// 	movingCube.translateZ(  moveDistance );
+			// if ( keyboard.pressed("Q") )
+			// 	movingCube.translateX( -moveDistance );
+			// if ( keyboard.pressed("E") )
+			// 	movingCube.translateX(  moveDistance );	
+
+			// // rotate left/right/up/down
+			// var rotation_matrix = new THREE.Matrix4().identity();
+			// if ( keyboard.pressed("A") )
+			// 	movingCube.rotateOnAxis( y_axis_local, rotateAngle);
+			// if ( keyboard.pressed("D") )
+			// 	movingCube.rotateOnAxis( y_axis_local, -rotateAngle);
+			// if ( keyboard.pressed("R") )
+			// 	movingCube.rotateOnAxis( x_axis_local, rotateAngle);
+			// if ( keyboard.pressed("F") )
+			// 	movingCube.rotateOnAxis( x_axis_local, -rotateAngle);
 			
-			if ( keyboard.pressed("Z") )
-			{
-				movingCube.position.set(0,25.1,0);
-				movingCube.rotation.set(0,0,0);
-			}
+			// if ( keyboard.pressed("Z") )
+			// {
+			// 	movingCube.position.set(0,25.1,0);
+			// 	movingCube.rotation.set(0,0,0);
+			// }
 			
-			var relativeCameraOffset = new THREE.Vector3(0,50,200);
+			// var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
-			var cameraOffset = relativeCameraOffset.applyMatrix4( movingCube.matrixWorld );
+			// var cameraOffset = relativeCameraOffset.applyMatrix4( movingCube.matrixWorld );
 
-			camera.position.x = cameraOffset.x;
-			camera.position.y = cameraOffset.y;
-			camera.position.z = cameraOffset.z;
+			// camera.position.x = cameraOffset.x;
+			// camera.position.y = cameraOffset.y;
+			// camera.position.z = cameraOffset.z;
 			
-			// TODO:
-			// 將recticle以camera.position為圓心做orbit旋轉
-			// step0: 以camera.position為原點,平移movingCube位置
-			var cube_offset = cameraOffset;
-			cube_offset.negate();
+			// // TODO:
+			// // 將recticle以camera.position為圓心做orbit旋轉
+			// // step0: 以camera.position為原點,平移movingCube位置
+			// var cube_offset = cameraOffset;
+			// cube_offset.negate();
 
-			// step1: 算出camera.position 到 movingCube的距離 => r
-			var radius = relativeCameraOffset.length();
+			// // step1: 算出camera.position 到 movingCube的距離 => r
+			// var radius = relativeCameraOffset.length();
 
-			// step2: 算出與y軸夾角theta' , z軸夾角alpha'
-			var dot_y = cube_offset.dot(y_axis_local);
-			var theta_p =  Math.acos(dot_y/(cube_offset.length()+1))*180/Math.PI;
+			// // step2: 算出與y軸夾角theta' , z軸夾角alpha'
+			// var dot_y = cube_offset.dot(y_axis_local);
+			// var theta_p =  Math.acos(dot_y/(cube_offset.length()+1))*180/Math.PI;
 
-			var dot_z = cube_offset.dot(z_axis_local);
-			var alpha_p =  Math.acos(dot_z/(cube_offset.length()+1))*180/Math.PI;
+			// var dot_z = cube_offset.dot(z_axis_local);
+			// var alpha_p =  Math.acos(dot_z/(cube_offset.length()+1))*180/Math.PI;
 
-			// step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta
-			var theta_pp = (theta_p + orbit.theta)*Math.PI/180;
-			var alpha_pp = (alpha_p + orbit.alpha)*Math.PI/180;
+			// // step3: 疊加上orbit.theta和orbit.alpha => theta'' = theta' + orbit.theta
+			// var theta_pp = (theta_p + orbit.theta)*Math.PI/180;
+			// var alpha_pp = (alpha_p + orbit.alpha)*Math.PI/180;
 
-			// step4: 將r,theta'',alpha''轉回笛卡爾座標,成為reticle位置
-			reticle.z = radius*Math.sin(theta_pp)*Math.cos(alpha_pp);
-			reticle.x = radius*Math.sin(theta_pp)*Math.sin(alpha_pp);
-			reticle.y = radius*Math.cos(theta_pp);
+			// // step4: 將r,theta'',alpha''轉回笛卡爾座標,成為reticle位置
+			// reticle.z = radius*Math.sin(theta_pp)*Math.cos(alpha_pp);
+			// reticle.x = radius*Math.sin(theta_pp)*Math.sin(alpha_pp);
+			// reticle.y = radius*Math.cos(theta_pp);
 
 			// step5: lockAt reticle
-			camera.lookAt( reticle );
+			// camera.lookAt( reticle );
 		}
 
 		function onMouseMove( event ) {
@@ -196,8 +217,10 @@
 				mouse_pos.x = current_x;
 				mouse_pos.y = current_y;
 			}else{
-				var mouse_delta_x = current_x - mouse_pos.x,
-					mouse_delta_y = current_y - mouse_pos.y;
+				var scale = 1.2;
+
+				var mouse_delta_x = (current_x - mouse_pos.x)*scale,
+					mouse_delta_y = (current_y - mouse_pos.y)*scale;
 
 				orbit.theta = (orbit.theta - mouse_delta_y)%360;
 				orbit.alpha = (orbit.alpha - mouse_delta_x)%360;
