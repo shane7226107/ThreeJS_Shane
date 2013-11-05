@@ -141,36 +141,12 @@
 				camera.rotateOnAxis( x_axis_local, rotateAngle);
 			if ( keyboard.pressed("F") )
 				camera.rotateOnAxis( x_axis_local, -rotateAngle);
-
-
-			// // local transformations
-
-			// // move forwards/backwards/left/right
-			// if ( keyboard.pressed("W") )
-			// 	movingCube.translateZ( -moveDistance );
-			// if ( keyboard.pressed("S") )
-			// 	movingCube.translateZ(  moveDistance );
-			// if ( keyboard.pressed("Q") )
-			// 	movingCube.translateX( -moveDistance );
-			// if ( keyboard.pressed("E") )
-			// 	movingCube.translateX(  moveDistance );	
-
-			// // rotate left/right/up/down
-			// var rotation_matrix = new THREE.Matrix4().identity();
-			// if ( keyboard.pressed("A") )
-			// 	movingCube.rotateOnAxis( y_axis_local, rotateAngle);
-			// if ( keyboard.pressed("D") )
-			// 	movingCube.rotateOnAxis( y_axis_local, -rotateAngle);
-			// if ( keyboard.pressed("R") )
-			// 	movingCube.rotateOnAxis( x_axis_local, rotateAngle);
-			// if ( keyboard.pressed("F") )
-			// 	movingCube.rotateOnAxis( x_axis_local, -rotateAngle);
 			
-			// if ( keyboard.pressed("Z") )
-			// {
-			// 	movingCube.position.set(0,25.1,0);
-			// 	movingCube.rotation.set(0,0,0);
-			// }
+			if ( keyboard.pressed("Z") )
+			{
+				camera.position.set(0,30,400);
+				camera.rotation.set(0,0,0);
+			}
 			
 			// var relativeCameraOffset = new THREE.Vector3(0,50,200);
 
